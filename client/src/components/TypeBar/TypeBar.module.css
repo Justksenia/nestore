@@ -1,0 +1,10 @@
+
+.container {
+    @apply w-44 cursor-pointer pt-8
+}
+.typeList li{
+    @apply text-18 flex justify-between items-center py-2 border-b-2 hover:bg-gray-400
+  }
+  .active {
+    @apply text-pink
+  }

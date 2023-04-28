@@ -1,48 +1,52 @@
-import { BrandBar } from "../components/BrandBar"
-import { TypeBar } from "../components/TypeBar"
-import { DeviceList } from "../components/DeviceList"
-import { observer} from "mobx-react-lite"
-import{useContext, useEffect} from "react"
-import {Context} from "../index"
-import { deleteType, fetchType } from '../http/deviceApi';
+import { BrandBar } from "../components/BrandBar";
+import { TypeBar } from "../components/TypeBar";
+import { DeviceList } from "../components/DeviceList";
+import { observer } from "mobx-react-lite";
+import { useContext, useEffect } from "react";
+import { Context } from "../index";
 
-export const Shop =observer(()=> {
-  const {device}=useContext(Context)
-  const {user}=useContext(Context)
 
-  console.log(device._types)
-  const deleteTypeId=async(id)=>{
-    deleteType(id)
+export const Shop = observer(() => {
+  const { device } = useContext(Context);
+  const { user } = useContext(Context);
+
+
+  const deleteTypeId =  (id) => {
+    device.deleteType(id);
+    device.getTypes();
+
+  };
+  const setSelectType = (id) => {
+    device.setSelectedType(id);
+  };
+  const setSelectedBrand=(id)=>{
+    device.setSelectedBrand(id)
   }
-  const setSelectType=(id)=>{
-    device.setSelectedType(id)
-  }
 
-  useEffect(()=>{
-      device.getTypes()
-     
-      },[])
-    return (
-      <>
-        <div className="flex items-start">
-          <TypeBar 
-          types={device._types} 
-          deleteTypeId={deleteTypeId} 
-          setSelectType={setSelectType}
-          selectedType={device.selectedType} 
-          isAdmin={user.isAdmin}/>
-        <div>
-        <BrandBar/>
+  useEffect(() => {
+    device.getTypes();
+    device.getBrands();
+    user.getBasket(user._user.id)
+  }, []);
+  return (
+    <div className="flex items-start justify-evenly w-1100">
+      <TypeBar
+        types={device._types}
+        deleteTypeId={deleteTypeId}
+        setSelectType={setSelectType}
+        selectedType={device.selectedType}
+        isAdmin={user.isAdmin}
+      />
+      <div>
+        <BrandBar 
+          brands={device._brands}
+          setSelectedBrand={setSelectedBrand}
+          selectBrand={device.selectedBrand}
+        />
         <div className="flex flex-wrap">
-          <DeviceList/>
-      
+          <DeviceList />
         </div>
-        
-        </div>
-         
-          
-        </div>
-    
-        </>
-    )
-})
+      </div>
+    </div>
+  );
+});

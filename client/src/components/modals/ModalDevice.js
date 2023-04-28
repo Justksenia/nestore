@@ -4,9 +4,9 @@ import {useContext, useState} from "react"
 import {Context} from "../../index"
 import { Form, Dropdown, Container} from 'react-bootstrap';
 import { createDevice } from '../../http/deviceApi';
+import { observer } from 'mobx-react-lite';
 
-
-export const ModalDevice=({show, onHide})=> {
+export const ModalDevice=observer(({show, onHide})=> {
   
     const {device}=useContext(Context)
     const [info, setInfo]=useState([])
@@ -21,7 +21,7 @@ export const ModalDevice=({show, onHide})=> {
         setInfo([...info, {title:"", desc:"", key:Date.now()}])
     }
 
- 
+ console.log(device)
     const selectFile=(e)=>{
       setFile(e.target.files[0])
     }
@@ -52,7 +52,7 @@ export const ModalDevice=({show, onHide})=> {
             <Dropdown>
             <Dropdown.Toggle className="mb-4"> {type.name||"Выберите тип"} </Dropdown.Toggle>
             <Dropdown.Menu>
-                {device.types.map(type=>
+                {device._types.map(type=>
                     <Dropdown.Item key={type.id} onClick={()=>setType(type)}>{type.name}</Dropdown.Item>
                 )}
             </Dropdown.Menu>
@@ -60,7 +60,7 @@ export const ModalDevice=({show, onHide})=> {
             <Dropdown>
             <Dropdown.Toggle className="mb-4"> {brand.name||"Выберите брэнд"} </Dropdown.Toggle>
             <Dropdown.Menu>
-                {device.brands.map(brand=>
+                {device._brands.map(brand=>
                     <Dropdown.Item key={brand.id} onClick={()=>setBrand(brand)}>{brand.name}</Dropdown.Item>
                 )}
             </Dropdown.Menu>
@@ -109,4 +109,4 @@ export const ModalDevice=({show, onHide})=> {
       </Modal.Dialog>
     </Modal>
   );
-}
+})

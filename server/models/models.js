@@ -5,25 +5,25 @@ const {DataTypes}=require("sequelize");
 const User=sequelize.define("user", {
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     email: {type: DataTypes.STRING, unique:true},
+    name:{type:DataTypes.STRING, defaultValue:"friend"},
     password:{type:DataTypes.STRING}, 
     role: {type:DataTypes.STRING, defaultValue:"USER"}
-})
+}, {freezeTableName: true})
 const Basket=sequelize.define("basket", {
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
-})
+}, {timestamps:false, freezeTableName: true})
 const BasketDevice=sequelize.define("basket_device", {
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
-})
+}, {timestamps:false, freezeTableName: true})
 
-// const Device=sequelize.define("device", {
-//     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
-//     name: {type: DataTypes.STRING, allowNull:false },
-//     price: {type: DataTypes.INTEGER, allowNull:false},
-//     rating: {type:DataTypes.INTEGER, defaultValue:0},
-//     img: {type: DataTypes.STRING, allowNull:false},
- 
+const Favorite=sequelize.define("favorite", {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+}, {timestamps:false, freezeTableName: true})
+const FavoriteDevice=sequelize.define("favorite_device", {
+    id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+}, {timestamps:false, freezeTableName: true})
 
-// }, {timestamps:false, freezeTableName: true})
+
 
 const Devices=sequelize.define("devices", {
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
@@ -39,28 +39,29 @@ const Devices=sequelize.define("devices", {
 const Type=sequelize.define("type", {
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     name: {type:DataTypes.STRING, unique:true, allowNull:false}
-}, {timestamps:false})
+}, {timestamps:false, freezeTableName: true})
 
 const Brand=sequelize.define("brand", {
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     name: {type:DataTypes.STRING, unique:true, allowNull:false}
-},{timestamps:false})
+},{timestamps:false, freezeTableName: true})
 
 const Rating=sequelize.define("rating", {
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     rate: {type:DataTypes.INTEGER, allowNull:false}
-})
+}, {timestamps:false, freezeTableName: true})
 
 const DeviceInfo=sequelize.define("device_info" , {
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     title: {type:DataTypes.STRING,allowNull:false}, 
     desc: {type: DataTypes.STRING, allowNull:false}
-})
+}, {timestamps:false, freezeTableName: true})
 
 const TypeBrand=sequelize.define("type_brand", {
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     name:{type:DataTypes.STRING}
-})
+}, {timestamps:false, freezeTableName: true})
+
 
 
 
@@ -68,11 +69,17 @@ const TypeBrand=sequelize.define("type_brand", {
 User.hasOne(Basket)
 Basket.belongsTo(User)
 
+User.hasOne(Favorite)
+Favorite.belongsTo(User)
+
 User.hasMany(Rating)
 Rating.belongsTo(User)
 
-Basket.hasMany(BasketDevice)
-BasketDevice.belongsTo(Basket)
+User.hasMany(BasketDevice)
+BasketDevice.belongsTo(User)
+
+Favorite.hasMany(FavoriteDevice)
+FavoriteDevice.belongsTo(Favorite)
 
 Type.hasMany(Devices)
 Devices.belongsTo(Type)
@@ -95,8 +102,6 @@ Brand.belongsToMany(Type, {through: TypeBrand})
 
 
 
-
-
 module.exports= {
-    User, Basket, BasketDevice, Devices, Type, Brand, Rating, TypeBrand, DeviceInfo
+    User, Basket, BasketDevice, Devices, Type, Brand, Rating, TypeBrand, DeviceInfo, Favorite, FavoriteDevice
 }

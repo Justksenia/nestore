@@ -37,7 +37,7 @@ class DeviceController {
       next(ApiError.badRequest(e.message));
     }
   }
-  async getAll(req, res, next) {
+  async getAll(req, res) {
     let { brandId, typeId, limit, page } = req.query;
 
     let devices;
@@ -103,7 +103,8 @@ class DeviceController {
         include:[
           {model:Type},
           {model:Brand},
-          {model:DeviceInfo}
+          {model:DeviceInfo},
+          
         ],
     })
     return res.json(device)

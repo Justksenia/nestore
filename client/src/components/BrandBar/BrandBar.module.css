@@ -1,0 +1,10 @@
+.selectedBrand {
+    @apply p-10 flex
+}
+
+.selectedBrand li{
+    @apply mx-1 px-2 py-1 border-2 border-gray-200 rounded-md hover:bg-grey shadow-grey shadow-md text-16
+}
+.active {
+    @apply text-pink
+}

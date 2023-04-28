@@ -1,17 +1,23 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { $host } from "../http";
+import { $host, $hostAuth } from "../http";
 
 
 let fetchTypes=()=>$host.get("api/type")
-
+let deleteType=(id)=>$hostAuth.delete("api/type/"+id)
+let fetchBrands=()=> $host.get("api/brand")
+let fetchOneBrand=(brandId, typeId=null)=>$host.get("api/device",{params: {brandId, typeId}}) 
+let fetchOneType=(typeId, brandId=null)=>$host.get("api/device",{params: {typeId, brandId}}) 
+let fetchOneDevice=(id)=>$host.get(`api/device/${id}`)
+    
 
 export default class DeviceStore{
-
+  
 
     constructor(){
         this._types=[];
         this._brands=[];
         this._devices=[];
+        this._device={};
            
         
         this._selectedType =0
@@ -19,30 +25,40 @@ export default class DeviceStore{
         makeAutoObservable(this);
     }
  
-    setBrands(brands) {
-        this._brands=brands;
-    }
+
     setDevice(devices) {
         this._devices=devices
     }
-    setSelectedType(type) {
-      
-        this._selectedType = type
+    setSelectedType=async(id)=> {
+       this._selectedType = id
+       let brandId=this._selectedBrand!==0?this._selectedBrand:null
+       const {data}=await fetchOneType(id,brandId)
+       runInAction(()=>this._devices=data.rows)
     }
-    setSelectedBrand(brand) {
- 
-        this._selectedBrand = brand
+    setSelectedBrand=async(id)=> {
+         this._selectedBrand = id
+         let typeId=this._selectedType!==0?this._selectedType:null
+        const {data}= await fetchOneBrand(id, typeId)
+        runInAction(()=>this._devices=data.rows)
+
     }
-
-
-
     getTypes=async()=> {
-        const data= await fetchTypes()
-        runInAction(()=>this._types=data.data)
+        const {data}= await fetchTypes()
+        runInAction(()=>this._types=data)
     }
-    get brands() {
-        return this._brands
+    deleteType=async(id)=>{
+        const {data}=await deleteType(id)
     }
+
+    getBrands=async()=>{
+        const {data}=await fetchBrands()
+        runInAction(()=>this._brands=data)
+    }
+    getDevice=async(id)=>{
+        const {data}=await fetchOneDevice(id)
+        runInAction(()=>this._device=data)
+    }
+   
     get devices() {
         return this._devices
     }
@@ -51,6 +67,10 @@ export default class DeviceStore{
     }
     get selectedBrand() {
         return this._selectedBrand
+    }
+    get device() {
+        this.getDevice()
+        return this._device
     }
    
 }

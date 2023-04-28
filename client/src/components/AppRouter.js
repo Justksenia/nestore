@@ -10,16 +10,14 @@ import { DevicePage } from "../pages/DevicePage";
 export const AppRouter = () => {
   const { user } = useContext(Context);
   return (
+    <div className="w-90vw m-auto">
     <Routes>
-   
-        
-          <Route path="/login" element={<Auth />} />
-          <Route path="/registration" element={<Auth />} />
-          <Route path="/device/:id" element={<DevicePage/>}/>
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/" element={<Shop />} />
-     
-  
+      <Route path="/login" element={<Auth />} />
+      <Route path="/registration" element={<Auth />} />
+      <Route path="/device/:id" element={<DevicePage />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/" element={<Shop />} />
+
       {user.isAdmin && (
         <>
           <Route path="/admin" element={<Admin />} />
@@ -28,5 +26,8 @@ export const AppRouter = () => {
 
       <Route path="*" element={<Shop />} />
     </Routes>
+
+    </div>
+
   );
 };

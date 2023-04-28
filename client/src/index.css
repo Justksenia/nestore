@@ -9,15 +9,6 @@
         font-family: 'Roboto Slab', serif;
         
     }
-  .typeList {
-    @apply text-18 flex justify-between items-center py-2 border-b-2 hover:bg-gray-400
-  }
-  .typeList.active {
-    @apply bg-fuchsia-600
-  }
+ 
 }
-/* @layer components {
-    .typeList {
-        @apply text-bold text-18 flex justify-between items-center py-2 border-b-2 hover:bg-grey
-        }
-} */
+

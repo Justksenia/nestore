@@ -12,11 +12,14 @@ export const DeviceList = observer(() => {
     })();
   }, []);
   const { device } = useContext(Context);
+  const {user}=useContext(Context);
+
+  
 
   return (
-    <div className="grid grid-cols-3 grid-rows-3 gap-2">
+    <div className="grid grid-cols-3">
       {device.devices.map((device) => (
-        <DeviceItem key={device.id} {...device} />
+        <DeviceItem key={device.id} {...device} {...user}/>
       ))}
     </div>
   );

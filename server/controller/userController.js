@@ -1,7 +1,8 @@
 const ApiError = require("../error/ApiError");
 const bcrypt=require("bcrypt");
 const webToken=require("jsonwebtoken");
-const {Basket, User, BasketDevice}=require("../models/models");
+const {Basket, User, BasketDevice, Favorite, Devices, Brand, DeviceInfo}=require("../models/models");
+
 
 
 const generateToken=(id, email, role)=>{
@@ -14,7 +15,7 @@ const generateToken=(id, email, role)=>{
 
 class UserController {
     async registration (req, res, next) {
-        const {email, password, role}=req.body
+        const {email, name, password, role}=req.body
         if(!email || !password) {
             return next(ApiError.badRequest("Некорректный емайл или пароль"))
         }
@@ -23,13 +24,13 @@ class UserController {
             return next(ApiError.badRequest("Пользователь с таким емайл уже существует"))
         }
         const hashPassword=await bcrypt.hash(password, 5);
-        const user = await User.create({email, role, password:hashPassword})
+        const user = await User.create({email, name, role, password:hashPassword})
         const basket=await Basket.create({userId:user.id});
-        const jwt=generateToken(user.id, user.email, user.role)
+        const favorite=await Favorite.create({userId:user.id})
+        const jwt=generateToken(user.id, user.email, user.name, user.role)
             return res.json({jwt})
-
-
     }
+
     async login (req, res, next) {
         const {email, password}=req.body
         const user=await User.findOne({where: {email}})
@@ -40,27 +41,92 @@ class UserController {
         if(!validPassword) {
             return next(ApiError.badRequest("Неверный пароль"))
         }
-        const jwt=generateToken(user.id, user.email, user.role)
+        const jwt=generateToken(user.id, user.email, user.role, user.name)
         return res.json({jwt})
   
     }
     async checks (req, res, next) {
-        const token=generateToken(req.user.id, req.user.email, req.user.role)
+        const token=generateToken(req.user.id, req.user.email, req.user.role, req.user.name)
         return res.json({token})
     }
 
-    async basket (req,res,next) {
-
+    async createBasket (req,res, next) {
+        try {
+            
+            let {userId,deviceId} = req.body;
+            const basket=await BasketDevice.create({
+                userId,
+                deviceId
+            })
+        return res.status(201).json(basket)
+    } catch(e) {
+        next(ApiError.badRequest(e.message))
     }
-    async basketAdd(req,res,next) {
-        //если устройства с таким ид нет, то будет ошибка добавления
-        const {deviceId}=req.body
-        const {id}=req.params
-        const userId=await Basket.findOne({where:{id}})
+}
 
-        const basket=await BasketDevice.create({userId, deviceId})
-        return res.json(basket)
+
+    async getBasket(req,res,next) {
+     const {id}=req.params
+        try {
+            const basket=await Devices.findAll({
+                include:[
+                    {
+                        model:BasketDevice,
+                                where:{
+                                userId: id
+                            }},
+                        {model:Brand},
+                        {model:DeviceInfo}
+                ]       
+                    } 
+                )
+            return res.json(basket)
+        }
+       catch (e) {
+        next(ApiError.badRequest(e.message))
+       }
     }
+
+    async addDevice (req,res,next) {
+        try {
+            let {userId}=req.params
+           let {deviceId}=req.body;
+           const device=await BasketDevice.create({
+            userId,deviceId
+           })
+           return res.status(201).json(device)
+        }  catch(e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+    async deleteDevice (req,res,next) {
+        try {
+            let {id}=req.params
+           const device=await BasketDevice.destroy({
+            where: {
+                id
+            }
+         
+           })
+           return res.status(204).json(device)
+        }  catch(e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+    async deleteAllDevices(req,res,next) {
+        try {
+            let {deviceId}=req.params
+            const device=await BasketDevice.destroy({
+                where: {
+                    deviceId
+                }
+            })
+            return res.status(204).json(device)
+        }  catch(e) {
+            next(ApiError.badRequest(e.message))
+        }
+        }
+    
 }
 
 module.exports=new UserController();

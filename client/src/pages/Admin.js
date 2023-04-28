@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
+
 import { ModalBrands } from '../components/modals/ModalBrand';
 import { ModalType } from '../components/modals/ModalType';
 import { ModalDevice } from '../components/modals/ModalDevice';

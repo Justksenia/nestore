@@ -12,6 +12,13 @@ module.exports = {
         "white": "#FFFFFF",
         "black": "#4F4F4F"
       },
+      spacing: {
+        "90vw":"90vw",
+        "1100": "1100px",
+        "300":"300px",
+        "260":"260px",
+        "170":"170px"
+      }
 
     },
     fontSize: {
