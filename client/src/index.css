@@ -9,6 +9,15 @@
         font-family: 'Roboto Slab', serif;
         
     }
+
+    .primary-btn {
+        @apply bg-pink text-white py-2 px-6 block m-auto rounded-md mx-2 hover:bg-hover-pink disabled:bg-grey
+    }
+    .black-btn {
+        @apply bg-black text-white py-2 px-6 block m-auto rounded-md  mx-2 hover:bg-hover-black disabled:bg-grey
+    }
+ 
+  
  
 }
 

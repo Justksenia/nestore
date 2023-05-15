@@ -1,0 +1,13 @@
+.btn {
+    @apply  text-white py-2 px-6 block m-auto rounded-md mx-2 
+}
+
+.primaryBtn {
+    @apply bg-pink hover:bg-hover-pink disabled:bg-grey
+}
+.blackBtn{
+    @apply bg-black hover:bg-hover-black disabled:bg-grey
+}
+.normalDark {
+    @apply border-none p-0 bg-transparent cursor-pointer text-black hover:text-hover-black 
+ }

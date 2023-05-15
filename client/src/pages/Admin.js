@@ -1,8 +1,11 @@
 import { useState } from 'react';
 
-import { ModalBrands } from '../components/modals/ModalBrand';
-import { ModalType } from '../components/modals/ModalType';
-import { ModalDevice } from '../components/modals/ModalDevice';
+import { ModalBrands } from '../components/AdminModals/ModalBrand';
+import { ModalType } from '../components/AdminModals/ModalType';
+import { ModalDevice } from '../components/AdminModals/ModalDevice';
+
+import Modal from "../components/UI/Modal"
+import Button from '../components/UI/Button';
 
 export const Admin =()=> {
     const [typeVisible, setTypeVisible]=useState(false)
@@ -12,22 +15,33 @@ export const Admin =()=> {
     return (
       <>
       <div style={{display:"flex", justifyContent:"space-around", marginTop:"25vh"}}>
-       <div className="d-grid gap-2" style={{width:500}}>
-      <button variant="outline-dark" size="lg" onClick={()=>setBrandVisible(true)}>
+       <div className="grid gap-2 w-260">
+      <Button variant="primary" onClick={()=>setBrandVisible(true)}>
         Добавить бренд
-      </button>
-      <button variant="outline-dark" size="lg" onClick={()=>setDeviceVisible(true)}>
-        Добавить устройство
-      </button>
-      <button variant="outline-dark" size="lg" onClick={()=>setTypeVisible(true)}>
+      </Button>
+      <Button variant="primary" onClick={()=>setDeviceVisible(true)}>
+          Добавить устройство
+      </Button>
+      <Button variant="primary" onClick={()=>setTypeVisible(true)}>
         Добавить тип
-      </button>
+      </Button>
+      
     </div>
     
     </div>
-    <ModalType show={typeVisible} onHide={()=>setTypeVisible(false)}/>
-    <ModalBrands show={brandVisible} onHide={()=>setBrandVisible(false)}/>
-    <ModalDevice show={deviceVisible} onHide={()=>setDeviceVisible(false)}/>
+
+    <Modal visible={brandVisible} onHide={()=>setBrandVisible(false)}>
+      <ModalBrands onHide={()=>setBrandVisible(false)}/>
+    </Modal>
+
+    <Modal visible={typeVisible} onHide={()=>setTypeVisible(false)}> 
+      <ModalType onHide={()=>setTypeVisible(false)}/>
+    </Modal>
+   
+      <Modal visible={deviceVisible} onHide={()=>setDeviceVisible(false)}>
+      <ModalDevice show={deviceVisible} onHide={()=>setDeviceVisible(false)}/>
+      </Modal>
+    
     </>
     )
 }

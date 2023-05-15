@@ -6,11 +6,15 @@ import { $hostAuth } from "../http";
 export default class UserStore{
     fetchBasket=(id)=>$hostAuth.get(`api/user/${id}/basket`)
     addToBasket=(userId,deviceId)=>$hostAuth.post(`api/user/${userId}/basket`,{userId,deviceId})
+    fetchFavorite=(id)=>$hostAuth.get(`api/favorite/${id}`)
+    addToFavorite=(userId,deviceId)=>$hostAuth.post("api/favorite", {userId,deviceId})
+    deleteFavorite=(id)=>$hostAuth.delete("api/favorite", {id})
     constructor(){
         this._isAuth=false;
         this._isAdmin=false;
         this._user={};
-        this._basket=[]
+        this._basket=[];
+        this._favorite=[];
         makeAutoObservable(this);
     }
     setIsAuth(bool) {
@@ -31,6 +35,15 @@ export default class UserStore{
     async setBasket (userId,deviceId) {
         const {data}=await this.addToBasket(userId,deviceId)
         runInAction(()=>this._basket.push(data))
+    }
+
+    async getFavorite (id) {
+        const {data}=await this.fetchFavorite(id)
+        runInAction(()=>this._favorite=data)
+    }
+    async setFavorite(userId,deviceId) {
+        const {data}=await this.addToFavorite(userId,deviceId)
+        runInAction(()=>this._favorite.push(data))
     }
     get isAuth() {
         return this._isAuth

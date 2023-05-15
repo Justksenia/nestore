@@ -1,0 +1,3 @@
+.primary {
+    @apply border-2 p-2 my-2 rounded-md  focus:border-grey focus:outline-none focus-visible:border-grey
+}

@@ -27,9 +27,10 @@ export const Shop = observer(() => {
     device.getTypes();
     device.getBrands();
     user.getBasket(user._user.id)
+    user.getFavorite(user._user.id)
   }, []);
   return (
-    <div className="flex items-start justify-evenly w-1100">
+    <div className="grid grid-cols-shop">
       <TypeBar
         types={device._types}
         deleteTypeId={deleteTypeId}

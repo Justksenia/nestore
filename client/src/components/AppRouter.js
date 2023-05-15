@@ -6,6 +6,7 @@ import { Shop } from "../pages/Shop";
 import { Admin } from "../pages/Admin";
 import { Cart } from "../pages/Cart";
 import { DevicePage } from "../pages/DevicePage";
+import {Favorite} from "../pages/Favorite";
 
 export const AppRouter = () => {
   const { user } = useContext(Context);
@@ -16,6 +17,7 @@ export const AppRouter = () => {
       <Route path="/registration" element={<Auth />} />
       <Route path="/device/:id" element={<DevicePage />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/favorites" element={<Favorite/>}/>
       <Route path="/" element={<Shop />} />
 
       {user.isAdmin && (

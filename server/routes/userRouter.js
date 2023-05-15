@@ -13,4 +13,6 @@ router.get("/:id/basket", userController.getBasket)
 router.post ("/:id/basket", userController.createBasket)
 router.post("/basket/:id", userController.addDevice)
 router.delete("/basket/:id", userController.deleteDevice)
+
+
 module.exports=router

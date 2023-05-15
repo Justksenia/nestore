@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
+import Button from "../components/UI/Button"
+import Input from "../components/UI/Input"
 
 import { registration, login } from "../http/userApi";
 import { observer } from "mobx-react-lite";
@@ -41,9 +43,8 @@ export const Auth = observer(() => {
         <h2 className="text-22 mb-3">
           {isLocation ? "Авторизация" : "Регистрация"}
         </h2>
-        <div className="mb-3">
-          <input
-            className="border-grey border-2 p-1 rounded-md"
+        <div>
+          <Input
             type="email"
             placeholder="введите email"
             value={email}
@@ -51,15 +52,14 @@ export const Auth = observer(() => {
           />
         </div>
         <div>
-          <input
+          <Input
             type="password"
-            className="border-grey border-2 p-1 rounded-md"
             placeholder="введите пароль"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <p className="text-center my-3">
+        <p className="my-2">
           {isLocation ? (
             <NavLink to="/registration" className="hover:text-pink">
               Создать аккаунт
@@ -70,9 +70,9 @@ export const Auth = observer(() => {
             </NavLink>
           )}
         </p>
-        <button className="block bg-pink text-white py-2 px-8 m-auto rounded-md">
+        <Button variant="primary" className='w-100% m-auto'>
           {isLocation ? "Войти" : "Создать"}
-        </button>
+        </Button>
       </form>
     </div>
   );

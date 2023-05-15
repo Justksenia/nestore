@@ -1,7 +1,7 @@
 const ApiError = require("../error/ApiError");
 const bcrypt=require("bcrypt");
 const webToken=require("jsonwebtoken");
-const {Basket, User, BasketDevice, Favorite, Devices, Brand, DeviceInfo}=require("../models/models");
+const {User, BasketDevice, Devices, Brand, DeviceInfo}=require("../models/models");
 
 
 
@@ -25,8 +25,6 @@ class UserController {
         }
         const hashPassword=await bcrypt.hash(password, 5);
         const user = await User.create({email, name, role, password:hashPassword})
-        const basket=await Basket.create({userId:user.id});
-        const favorite=await Favorite.create({userId:user.id})
         const jwt=generateToken(user.id, user.email, user.name, user.role)
             return res.json({jwt})
     }
