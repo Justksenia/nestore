@@ -2,12 +2,10 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { $host, $hostAuth } from "../http";
 
 
-let fetchTypes=()=>$host.get("api/type")
+
 let deleteType=(id)=>$hostAuth.delete("api/type/"+id)
-let fetchBrands=()=> $host.get("api/brand")
-let fetchOneBrand=(brandId, typeId=null)=>$host.get("api/device",{params: {brandId, typeId}}) 
-let fetchOneType=(typeId, brandId=null)=>$host.get("api/device",{params: {typeId, brandId}}) 
-let fetchOneDevice=(id)=>$host.get(`api/device/${id}`)
+
+
     
 
 export default class DeviceStore{

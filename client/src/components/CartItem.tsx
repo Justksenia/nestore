@@ -1,12 +1,12 @@
-import React from "react"
 
-export const CartItem=(props)=>{
+export const CartItem=(props:any)=>{
     const {img, brand, name, device_infos, price, basket_devices}=props
    let totalPrice=price*basket_devices.length
+   console.log(basket_devices)
     return (
    
             <article className="flex justify-evenly py-5 border-t-2 border-light">
-                <div  className>
+                <div>
                     <img src={process.env.REACT_APP_API_URL+img} alt="img" width="129" height="170"/>
                 </div>
                 <div>
@@ -21,7 +21,7 @@ export const CartItem=(props)=>{
                     <div onClick={()=>console.log(basket_devices[0].id)}>
                         -
                     </div>
-                    <div onClick={()=>console.log("hi")}>
+                    <div className="mx-4">
                         {basket_devices.length}
                     </div>
                     <div>

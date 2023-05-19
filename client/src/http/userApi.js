@@ -19,6 +19,3 @@ export const check = async () => {
     return jwt_decode(data.token)
 }
 
-export const logOut=async()=>{
-    localStorage.removeItem("token")
-}

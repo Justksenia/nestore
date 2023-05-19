@@ -2,7 +2,7 @@ require ("dotenv").config();
 
 const express=require("express");
 
-const PORT=5000 || process.env.PORT;
+const PORT= process.env.PORT;
 
 
 const sequelize=require("./db");

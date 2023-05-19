@@ -12,7 +12,7 @@ router.get ("/auth", authMiddleware, userController.checks)
 router.get("/:id/basket", userController.getBasket)
 router.post ("/:id/basket", userController.createBasket)
 router.post("/basket/:id", userController.addDevice)
-router.delete("/basket/:id", userController.deleteDevice)
-
+router.delete("/basket/:id", userController.deleteAllDevices)
+router.delete("/:id/basket/device", userController.deleteDevice)
 
 module.exports=router

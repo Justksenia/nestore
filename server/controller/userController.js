@@ -99,7 +99,7 @@ class UserController {
     }
     async deleteDevice (req,res,next) {
         try {
-            let {id}=req.params
+            let {id}=req.body
            const device=await BasketDevice.destroy({
             where: {
                 id

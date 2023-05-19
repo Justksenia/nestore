@@ -3,7 +3,7 @@ import style from "./Button.module.css"
 import classNames from "classnames"
 
 interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?:"primary" | "black" | "normalDark"
+    variant?:"primary" | "black" | "normalDark" | "normal"
     className?:string
     children?:ReactNode
  
@@ -17,6 +17,7 @@ const Button:React.FC<IButton> =({ type, disabled, onClick, variant, children, c
             variant==="primary" && style.primaryBtn,
             variant==="black" && style.blackBtn,
             variant==="normalDark" && style.normalDark,
+            variant==="normal" && style.normal,
             className
         )}
               {...props}>{children}</button>

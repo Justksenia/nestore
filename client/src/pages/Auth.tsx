@@ -1,39 +1,33 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
-import Button from "../components/UI/Button"
-import Input from "../components/UI/Input"
+import Button from "../components/UI/Button";
+import Input from "../components/UI/Input";
 
-import { registration, login } from "../http/userApi";
-import { observer } from "mobx-react-lite";
-import { Context } from "../index";
 
-export const Auth = observer(() => {
-  const { user } = useContext(Context);
+import { authApi } from "../service/authApi";
 
+export const Auth = () => {
   const location = useLocation();
   const navigate = useNavigate();
   let isLocation = location.pathname === "/login";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginUser, { isLoading, error }] = authApi.useLoginUserMutation();
 
+  if (error) {
+    alert(error);
+  }
 
-
-  const handlesubmit = async (e) => {
+  const handlesubmit = async (e:any) => {
     e.preventDefault();
+
     try {
-      let data;
-      if (isLocation) {
-        data = await login(email, password);
-      
-      } else {
-        data = await registration(email, password);
-      }
-      user.setUser(data);
-      user.setIsAuth(true);
+      const auth = { email, password };
+      await loginUser(auth);
       navigate("/");
     } catch (e) {
-      alert(e.response.data.message);
+      alert(e);
     }
   };
 
@@ -70,10 +64,10 @@ export const Auth = observer(() => {
             </NavLink>
           )}
         </p>
-        <Button variant="primary" className='w-100% m-auto'>
+        <Button variant="primary" className="w-100% m-auto" type="submit">
           {isLocation ? "Войти" : "Создать"}
         </Button>
       </form>
     </div>
   );
-});
+};

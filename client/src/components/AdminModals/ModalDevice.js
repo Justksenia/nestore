@@ -1,5 +1,5 @@
 import { ChangeEvent, useContext, useState} from "react";
-import { Context } from "../../index";
+
 
 import { createDevice } from "../../http/deviceApi";
 import { observer } from "mobx-react-lite";
@@ -20,7 +20,7 @@ import Button from "../UI/Button";
 
 
 export const ModalDevice = observer(({ onHide }) => {
-  const { device } = useContext(Context);
+
   const [info, setInfo] = useState([]);
 
   const [type, setType] = useState(null);
@@ -61,12 +61,12 @@ export const ModalDevice = observer(({ onHide }) => {
       <h4 className="text-22 border-b-2 py-4">Добавить устройство</h4>
       <div className="flex flex-col py-5">
         <form className="flex flex-col">
-          <DropDown options={device._types} value={type} setValue={setType} />
+          {/* <DropDown options={device._types} value={type} setValue={setType} />
           <DropDown
             options={device._brands}
             setValue={setBrand}
             value={brand}
-          />
+          /> */}
           <Input
             type="text"
             placeholder="Введите название"

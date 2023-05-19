@@ -1,24 +1,16 @@
-import React, {createContext} from 'react';
-import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import UserStore from './store/UserStore';
-import DeviceStore from './store/DeviceStore';
 
-//ispravit
-export const Context=createContext(null as any);
+import { Provider } from 'react-redux';
+import { stores } from './stores/store';
+import { render } from 'react-dom';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
 
-root.render(
-  <React.StrictMode>
-    <Context.Provider value={{
-      user: new UserStore(),
-      device: new DeviceStore()
-    }} >
+
+const rootElement = document.getElementById('root')
+render(
+  <Provider store={stores}>
     <App />
-    </Context.Provider>
-  </React.StrictMode>
-);
+  </Provider>,
+  rootElement
+)

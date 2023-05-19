@@ -6,7 +6,7 @@ import { $hostAuth } from "../http";
 export default class UserStore{
     fetchBasket=(id)=>$hostAuth.get(`api/user/${id}/basket`)
     addToBasket=(userId,deviceId)=>$hostAuth.post(`api/user/${userId}/basket`,{userId,deviceId})
-    fetchFavorite=(id)=>$hostAuth.get(`api/favorite/${id}`)
+  
     addToFavorite=(userId,deviceId)=>$hostAuth.post("api/favorite", {userId,deviceId})
     deleteFavorite=(id)=>$hostAuth.delete("api/favorite", {id})
     constructor(){

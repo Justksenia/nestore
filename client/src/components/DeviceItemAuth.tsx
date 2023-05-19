@@ -1,32 +1,45 @@
-import { observer } from "mobx-react-lite";
-import { useContext, useState, useEffect } from "react";
+
+import { useState} from "react";
 import { NavLink } from "react-router-dom";
-import { Context } from "../index";
+
 import Button from "./UI/Button";
-import { BlackHearth } from "./UI/BlackHearth";
-import { PinkHearth } from "./UI/PinkHearth";
+import { BlackHearth } from "./UI/SvgButton/BlackHearth"
+import { PinkHearth } from "./UI/SvgButton/PinkHearth";
+import { IDevice, IFavorite, IFavoriteBody } from "../types/DeviceTypes";
 
-export const DeviceItem = observer((props) => {
-
-  const { id, img, brand, rating, price, name, device_infos, isFavorite } = props;
-console.log(isFavorite + "==" + id)
-  const [favorite, setFavorite]=useState(isFavorite)
-
-  const addFavorite=()=>{
-    setFavorite(true)
-    user.setFavorite(userId, id)
-
-  }
-  const { user } = useContext(Context);
-  let userId = user._user.id;
+interface IDeviceItemAuthProps{
   
+  isFavorite:boolean,
+  device: IDevice,
+  userId:number,
+  addToFavorite:(arg:any)=>void
+}
 
 
-  const ur = process.env.REACT_APP_API_URL + img;
-  const color = device_infos.filter(
+export const DeviceItemAuth:React.FC<IDeviceItemAuthProps> = ({isFavorite, device, userId, addToFavorite}) => {
+
+  const [favorite, setFavorite]=useState(isFavorite)
+  const arg= {
+    userId:userId,
+    deviceId:device.id,
+  }
+
+
+ let addFavorite=()=>{
+    setFavorite(true)
+    addToFavorite(arg)
+  
+}
+
+
+
+
+  
+  const ur = process.env.REACT_APP_API_URL + device.img;
+  const color = device.device_infos.filter(
     (item) => item.title.toLowerCase() === "цвет"
   );
-  const memory = device_infos.filter(
+  const memory = device.device_infos.filter(
     (item) => item.title.toLowerCase() === "память" || item.title === "HDD"
   );
 
@@ -37,7 +50,7 @@ console.log(isFavorite + "==" + id)
           {favorite?<PinkHearth/>:<BlackHearth/>}
         </Button>
       </div>
-      <NavLink to={"/device/" + id}>
+      <NavLink to={"/device/" + device.id}>
         <div className="flex justify-evenly items-start">
           <div
             style={{ backgroundImage: `url(${ur})` }}
@@ -48,13 +61,13 @@ console.log(isFavorite + "==" + id)
 
       <div>
         <p className="text-16 my-3 m-auto w-260 h-12 text-center">
-          {brand.name} {name} {color[0]?.desc} {memory[0]?.desc}
+          {device.brand.name} {device.name} {color[0]?.desc} {memory[0]?.desc}
         </p>
  
         <div className="flex justify-evenly items-center m-4">
-          <p className="text-18">{price} руб.</p>
+          <p className="text-18">{device.price} руб.</p>
           <div className="flex justify-center items-center">
-            <p>{rating}</p>
+            <p>{device.rating}</p>
             <svg
               width="32px"
               height="32px"
@@ -87,11 +100,11 @@ console.log(isFavorite + "==" + id)
         <Button
         className="m-auto"
           variant="primary"
-          onClick={() => user.setBasket(userId, id)}
+          onClick={() => console.log("klick")}
         >
           Добавить в корзину
         </Button>
-      </div>
+      </div> 
     </div>
   );
-});
+};
