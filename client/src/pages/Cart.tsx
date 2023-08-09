@@ -16,12 +16,13 @@ export const Cart = ()=> {
               <section className="flex flex-col justify-between w-1100 m-auto">
               <header className="flex justify-evenly pb-3">
                 
-                  <p className="pl-64">Наименование товара</p>
+                  <p className="pl-20">Наименование товара</p>
                   <p>Цена</p>
                   <p>Количество</p>
                   <p>Стоимость</p>
               </header>
               {data.map(item=> <CartItem key={item.id} {...item}/>)}
+         
               </section>}
               
             </div>

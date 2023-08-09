@@ -111,6 +111,23 @@ class UserController {
             next(ApiError.badRequest(e.message))
         }
     }
+
+    async addOneDevice (req,res,next) {
+        try {
+           
+            let {userId,deviceId}=req.body
+           const device=await BasketDevice.create({
+  
+                userId,
+                deviceId
+            
+         
+           })
+           return res.status(201).json(device)
+        }  catch(e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
     async deleteAllDevices(req,res,next) {
         try {
             let {deviceId}=req.params

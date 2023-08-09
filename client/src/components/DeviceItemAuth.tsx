@@ -5,7 +5,8 @@ import { NavLink } from "react-router-dom";
 import Button from "./UI/Button";
 import { BlackHearth } from "./UI/SvgButton/BlackHearth"
 import { PinkHearth } from "./UI/SvgButton/PinkHearth";
-import { IDevice, IFavorite, IFavoriteBody } from "../types/DeviceTypes";
+import { IDevice} from "../types/DeviceTypes";
+import { cartApi } from "../service/cartApi";
 
 interface IDeviceItemAuthProps{
   
@@ -18,6 +19,7 @@ interface IDeviceItemAuthProps{
 
 export const DeviceItemAuth:React.FC<IDeviceItemAuthProps> = ({isFavorite, device, userId, addToFavorite}) => {
 
+  let [addOneCartDevice,{}]=cartApi.useAddOneCartDeviceMutation();
   const [favorite, setFavorite]=useState(isFavorite)
   const arg= {
     userId:userId,
@@ -100,7 +102,7 @@ export const DeviceItemAuth:React.FC<IDeviceItemAuthProps> = ({isFavorite, devic
         <Button
         className="m-auto"
           variant="primary"
-          onClick={() => console.log("klick")}
+          onClick={() =>addOneCartDevice(arg)}
         >
           Добавить в корзину
         </Button>

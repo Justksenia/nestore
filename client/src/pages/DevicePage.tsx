@@ -1,8 +1,11 @@
-import { useParams, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useParams, Link, NavLink } from "react-router-dom";
+import { cartApi } from "../service/cartApi";
 import { deviceApi } from "../service/deviceApi";
 import Button from "../components/UI/Button";
 import { BackButton } from "../components/UI/SvgButton/Back";
+import { useAppSelector } from "../hooks/redux";
+import { RootState } from "../stores/store";
+import { favoriteApi } from "../service/favoriteApi";
 
 export const DevicePage = () => {
   const { id } = useParams();
@@ -11,9 +14,20 @@ export const DevicePage = () => {
     data: device,
     isLoading,
     error,
-  } = deviceApi.useFetchOneDeviceQuery(id);
+  } = deviceApi.useFetchOneDeviceQuery(Number(id));
+
+  let [addOneCartDevice,{}]=cartApi.useAddOneCartDeviceMutation();
+  const {user}=useAppSelector((state:RootState)=>state.userReducer)
+
+  let userId=user&&user.id
+  if (userId) {
+    let {data}=favoriteApi.useFetchFavoriteQuery(userId)
+    console.log(data)
+  }
+
 
   return (
+    
     <div className="w-90vw m-auto">
       <Link to="/" className="mx-20 my-10">
      
@@ -55,13 +69,28 @@ export const DevicePage = () => {
               <p>Рейтинг: {device.rating}</p>
               <p className="text-18">Цена: {device.price} руб.</p>
               <div className="w-60">
-          
+                {userId ? 
                 <Button variant="primary" className="w-100% my-3">
                   Добавить в корзину
-                </Button>
-                <Button variant="black" className="w-100%">
+                </Button> 
+                : 
+                <NavLink to="/login">
+                  <Button variant="primary" className="w-100% my-3">
+                  Добавить в корзину
+                </Button> 
+                </NavLink>
+                }
+                {userId ? 
+                  <Button variant="black" className="w-100%">
+                  Добавить в избранное
+                </Button> :
+                <NavLink to="/login">
+                    <Button variant="black" className="w-100%">
                   Добавить в избранное
                 </Button>
+                </NavLink>
+              }
+              
               </div>
             </div>
           </div>

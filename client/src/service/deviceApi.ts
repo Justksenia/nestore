@@ -22,8 +22,8 @@ export const deviceApi = createApi({
         }),
         
       }),
-      fetchOneDevice:builder.query<IDevice,number>({
-        query:(id)=>({
+      fetchOneDevice:builder.query<IDevice,number | undefined>({
+          query:(id)=>({
           url:`device/${id}`
         })
       }),

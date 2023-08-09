@@ -46,10 +46,28 @@ export interface IFavorite {
     price:number,
     rating:number,
     typeId:number
-
 }
 
 export interface IFavoriteBody {
     urerId:number,
     deviceId:number
+}
+
+interface IBasketDevice{
+    id:number,
+    userId:number,
+    deviceId:number
+}
+
+export interface ICartDevice {
+    basket_devices: IBasketDevice[],
+    brand:IBrand,
+    brandId:number, 
+    device_infos:IDeviceInfos[],
+    id:number,
+    img: string,
+    name:string,
+    price:number,
+    rating:number,
+    typeId:number
 }

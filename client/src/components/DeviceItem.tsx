@@ -7,6 +7,7 @@ import { PinkHearth } from "./UI/SvgButton/PinkHearth";
 import { IDevice } from "../types/DeviceTypes";
 import { Star } from "./UI/SvgButton/Star";
 
+
 interface IDeviceItemProps {
   device: IDevice;
   isAuth: boolean;
@@ -22,6 +23,7 @@ export const DeviceItem: React.FC<IDeviceItemProps> = ({ device, isAuth }) => {
   const memory = device.device_infos.filter(
     (item) => item.title.toLowerCase() === "память" || item.title === "HDD"
   );
+  
 
   return (
     <div className="py-4 h-500 flex flex-col justify-between hover:shadow-xl">

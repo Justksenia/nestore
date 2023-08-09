@@ -1,6 +1,6 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { IFavorite, IFavoriteBody} from '../types/DeviceTypes'
+import { ICartDevice, IFavorite, IFavoriteBody} from '../types/DeviceTypes'
 
 interface IBodyDeleteDevice {
     userId:number,
@@ -13,34 +13,29 @@ export const cartApi = createApi({
     tagTypes:["Cart"],
     endpoints: (builder) => ({
     
-      fetchCart:builder.query<IFavorite[],number>({
+      fetchCart:builder.query<ICartDevice[],number>({
         query:(id)=>({
           url:`user/${id}/basket`
         }),
-        async onQueryStarted(args, { dispatch, queryFulfilled }) {
-            try {
-              const {data}=await queryFulfilled;
-              await dispatch(setFavorites(data));
-            } catch (error) {}
-          },
+       
         providesTags:result=>["Cart"]
       }), 
-      deleteCartDevice: builder.mutation<IFavorite, IBodyDeleteDevice>({
+      deleteCartDevice: builder.mutation<ICartDevice, {userId:number, id:number}>({
         query({userId,id}) {
           return {
-            url: `${userId}/basket/device`,
+            url: `user/${userId}/basket/device`,
             method: 'DELETE',
             body: {"id":id},
           };
         },
         invalidatesTags:["Cart"]
       }),
-      addToFavorite:builder.mutation<IFavorite, IFavoriteBody>({
-        query(body) {
+      addOneCartDevice:builder.mutation<ICartDevice, {deviceId:number, userId:number}>({
+        query({userId,deviceId}) {
             return {
-              url: 'favorite',
+              url: `user/${userId}/basket/device`,
               method: 'POST',
-              body: body,
+              body: {"deviceId":deviceId,"userId":userId},
             };
           },
           invalidatesTags:["Cart"]
