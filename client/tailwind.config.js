@@ -9,7 +9,7 @@ module.exports = {
         "red": "#ff3939",
         "pink": "#e30475",
         "light": "#e6e6e6",
-        "white": "#FFFFFF",
+        "white": "#FFFF443",
         "black": "#4F4F4F",
         "hover-pink" :"#b64978",
         "hover-black" :"#000000"
